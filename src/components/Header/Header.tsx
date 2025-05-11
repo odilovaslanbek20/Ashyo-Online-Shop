@@ -17,7 +17,7 @@ function Header() {
 	const url = import.meta.env.VITE_API_URL
 	const { data, isLoading, error } = useGetHooks(`${url}/categories/all`)
 	const [isOpens, setIsOpen] = useState<boolean>(false)
-	const {toggleModal, isOpenModal, isOpen} = useStore()
+	const {toggleModal, isOpenModal} = useStore()
 
 	type Category = {
 		id: number,
@@ -26,24 +26,26 @@ function Header() {
 
 	if (isLoading) {
 		return (
-			<div className='flex justify-center items-center h-screen flex-col'>
+			<div className="fixed w-full h-screen z-50 bg-[#fff]">
+				<div className='flex justify-center items-center h-screen flex-col'>
 				<div className='animate-spin rounded-full border-t-4 border-blue-500 border-8 w-16 h-16 mb-4'></div>
 				<p className='text-lg text-gray-700'>Loading data...</p>
+			</div>
 			</div>
 		)
 	}
 
 	if (error) {
 		return (
-			<div className='flex justify-center items-center h-[200px]'>
+			<div className="fixed w-full h-screen bg-[#fff] z-50 px-[20px]">
+				<div className='flex justify-center items-center h-[200px]'>
 				<div className='bg-red-100 text-red-700 px-4 py-2 rounded-md shadow-md'>
 					Malumot topilmadi iltimos keyinroq qayta urinib ko'ring...
 				</div>
 			</div>
+			</div>
 		)
 	}
-
-	console.log(isOpen);
 	
 
 	return (
@@ -127,8 +129,8 @@ function Header() {
 							2
 						</div>
 					</div>
-					<div className='bg-[#EBEFF3] cursor-pointer w-[50px] h-[48px] rounded-[6px] flex items-center justify-center'>
-						<FaUser onClick={isOpenModal} className='text-[20px]' />
+					<div onClick={isOpenModal} className='bg-[#EBEFF3] cursor-pointer w-[50px] h-[48px] rounded-[6px] flex items-center justify-center'>
+						<FaUser className='text-[20px]' />
 					</div>
 				</div>
 			</header>
