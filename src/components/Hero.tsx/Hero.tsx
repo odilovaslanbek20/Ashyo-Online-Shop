@@ -1,8 +1,8 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay } from 'swiper/modules'
 import { Link } from 'react-router-dom'
 import 'swiper/css'
 import 'swiper/css/navigation'
+import { Autoplay } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import { Button } from '../ui/button'
 
 function Hero() {
@@ -72,9 +72,11 @@ function Hero() {
 										<p className='text-[16px] max-[948px]:text-[14px] font-["Roboto"] text-[#545D6A] leading-[120%] max-[630px]:text-[#fff]'>
 											{item?.description}
 										</p>
-											<Link to='#'>
-												<Button className='bg-[#0F4A97] my-[10px] w-[120px] h-[50px]'>Batafsil</Button>
-											</Link>
+										<Link to='#'>
+											<Button className='bg-[#0F4A97] my-[10px] w-[120px] h-[50px] cursor-pointer hover:bg-[#0f4a97d1]'>
+												Batafsil
+											</Button>
+										</Link>
 									</div>
 								</div>
 

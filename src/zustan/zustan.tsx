@@ -1,11 +1,15 @@
 import { create } from 'zustand'
 
 type StoreState = {
-	isModal: boolean,
-	toggleModal: () => void,
+  isModal: boolean
+  isOpen: boolean
+  toggleModal: () => void
+  isOpenModal: () => void
 }
 
 export const useStore = create<StoreState>((set) => ({
   isModal: false,
-  toggleModal: () => set((state) => ({ isModal: !state.isModal }))
+  isOpen: false,
+  toggleModal: () => set((state) => ({ isModal: !state.isModal })), 
+  isOpenModal: () => set((state) => ({ isOpen: !state.isOpen })), 
 }))

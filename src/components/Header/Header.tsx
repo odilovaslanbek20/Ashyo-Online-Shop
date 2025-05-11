@@ -11,12 +11,13 @@ import {
 import { Link } from 'react-router-dom'
 import useGetHooks from '../hooks/GetDataHooks'
 import { useStore } from '@/zustan/zustan'
+import { AuthModalWithTabs } from '../Auth/Auth'
 
 function Header() {
 	const url = import.meta.env.VITE_API_URL
 	const { data, isLoading, error } = useGetHooks(`${url}/categories/all`)
-	const [isOpen, setIsOpen] = useState<boolean>(false)
-	const {toggleModal} = useStore()
+	const [isOpens, setIsOpen] = useState<boolean>(false)
+	const {toggleModal, isOpenModal, isOpen} = useStore()
 
 	type Category = {
 		id: number,
@@ -41,6 +42,9 @@ function Header() {
 			</div>
 		)
 	}
+
+	console.log(isOpen);
+	
 
 	return (
 		<>
@@ -67,12 +71,14 @@ function Header() {
 
 							<ChevronDown
 								className={`w-4 h-4 transform max-[500px]:hidden transition-transform ${
-									isOpen ? 'rotate-180' : ''
+									isOpens
+									 ? 'rotate-180' : ''
 								}`}
 							/>
 						</button>
 
-						{isOpen && (
+						{isOpens
+						 && (
 							<div className='absolute  hover:cursor-pointer mt-3 w-60 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden animate-fadeIn z-20'>
 								<ul className='divide-y divide-gray-100'>
 									{data?.map((category: Category) => (
@@ -103,29 +109,30 @@ function Header() {
 				</div>
 
 				<div className='flex items-center gap-[15px] max-[620px]:w-full max-[620px]:justify-around max-[1170px]:order-1'>
-					<div className='bg-[#EBEFF3] w-[50px] h-[48px] rounded-[6px] flex items-center justify-center relative'>
+					<div className='bg-[#EBEFF3] cursor-pointer w-[50px] h-[48px] rounded-[6px] flex items-center justify-center relative'>
 						<FaBalanceScaleRight className='text-[20px]' />
 						<div className='absolute px-[7px] h-[20px] top-[-8px] right-[-8px] text-[#fff] rounded-full flex items-center justify-center font-["Roboto"] font-bold text-[10px] bg-[#E81504]'>
 							2
 						</div>
 					</div>
-					<div className='bg-[#EBEFF3] w-[50px] h-[48px] rounded-[6px] flex items-center justify-center relative'>
+					<div className='bg-[#EBEFF3] cursor-pointer w-[50px] h-[48px] rounded-[6px] flex items-center justify-center relative'>
 						<FaHeart className='text-[20px]' />
 						<div className='absolute px-[7px] h-[20px] top-[-8px] right-[-8px] text-[#fff] rounded-full flex items-center justify-center font-["Roboto"] font-bold text-[10px] bg-[#E81504]'>
 							2
 						</div>
 					</div>
-					<div className='bg-[#EBEFF3] w-[50px] h-[48px] rounded-[6px] flex items-center justify-center relative'>
+					<div className='bg-[#EBEFF3] cursor-pointer w-[50px] h-[48px] rounded-[6px] flex items-center justify-center relative'>
 						<FaShopify className='text-[20px]' />
 						<div className='absolute px-[7px] h-[20px] top-[-8px] right-[-8px] text-[#fff] rounded-full flex items-center justify-center font-["Roboto"] font-bold text-[10px] bg-[#E81504]'>
 							2
 						</div>
 					</div>
-					<div className='bg-[#EBEFF3] w-[50px] h-[48px] rounded-[6px] flex items-center justify-center'>
-						<FaUser className='text-[20px]' />
+					<div className='bg-[#EBEFF3] cursor-pointer w-[50px] h-[48px] rounded-[6px] flex items-center justify-center'>
+						<FaUser onClick={isOpenModal} className='text-[20px]' />
 					</div>
 				</div>
 			</header>
+			<AuthModalWithTabs/>
 		</>
 	)
 }
