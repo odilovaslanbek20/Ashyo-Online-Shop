@@ -45,12 +45,12 @@ function Header() {
 	return (
 		<>
 			<header className='max-w-[1180px] m-auto max-[1220px]:mx-[20px] py-4 flex justify-between items-center gap-[20px] flex-wrap'>
-				<div className='flex items-center justify-between max-[455px]:w-full'>
+				<div className='flex items-center justify-between max-[620px]:w-full'>
 					<Link to='/' className='flex items-center gap-0'>
 						<img className='w-[150px]' src='logotip.png' alt='web logo' />
 					</Link>
 
-					<FaBars onClick={toggleModal} className='text-[25px] min-[455px]:hidden' />
+					<FaBars onClick={toggleModal} className='text-[25px] cursor-pointer min-[620px]:hidden' />
 				</div>
 
 				<div className='flex max-[1170px]:w-full items-center gap-[10px] max-[1170px]:order-2'>
@@ -102,22 +102,22 @@ function Header() {
 					</form>
 				</div>
 
-				<div className='flex items-center gap-[15px] max-[455px]:w-full max-[455px]:justify-around max-[1170px]:order-1'>
+				<div className='flex items-center gap-[15px] max-[620px]:w-full max-[620px]:justify-around max-[1170px]:order-1'>
 					<div className='bg-[#EBEFF3] w-[50px] h-[48px] rounded-[6px] flex items-center justify-center relative'>
 						<FaBalanceScaleRight className='text-[20px]' />
-						<div className='absolute w-[20px] h-[20px] top-[-8px] right-[-8px] text-[#fff] rounded-full flex items-center justify-center font-["Roboto"] font-bold text-[10px] bg-[#E81504]'>
+						<div className='absolute px-[7px] h-[20px] top-[-8px] right-[-8px] text-[#fff] rounded-full flex items-center justify-center font-["Roboto"] font-bold text-[10px] bg-[#E81504]'>
 							2
 						</div>
 					</div>
 					<div className='bg-[#EBEFF3] w-[50px] h-[48px] rounded-[6px] flex items-center justify-center relative'>
 						<FaHeart className='text-[20px]' />
-						<div className='absolute w-[20px] h-[20px] top-[-8px] right-[-8px] text-[#fff] rounded-full flex items-center justify-center font-["Roboto"] font-bold text-[10px] bg-[#E81504]'>
+						<div className='absolute px-[7px] h-[20px] top-[-8px] right-[-8px] text-[#fff] rounded-full flex items-center justify-center font-["Roboto"] font-bold text-[10px] bg-[#E81504]'>
 							2
 						</div>
 					</div>
 					<div className='bg-[#EBEFF3] w-[50px] h-[48px] rounded-[6px] flex items-center justify-center relative'>
 						<FaShopify className='text-[20px]' />
-						<div className='absolute w-[20px] h-[20px] top-[-8px] right-[-8px] text-[#fff] rounded-full flex items-center justify-center font-["Roboto"] font-bold text-[10px] bg-[#E81504]'>
+						<div className='absolute px-[7px] h-[20px] top-[-8px] right-[-8px] text-[#fff] rounded-full flex items-center justify-center font-["Roboto"] font-bold text-[10px] bg-[#E81504]'>
 							2
 						</div>
 					</div>
