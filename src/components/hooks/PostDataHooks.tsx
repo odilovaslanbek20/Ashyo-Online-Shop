@@ -4,7 +4,7 @@ import axios from 'axios'
 export default function usePostHooks() {
 	const [response, setResponse] = useState<null>(null)
 	const [loading, setLoading] = useState<boolean>(false)
-	const [error, setError] = useState<null>(null)
+	const [error, setError] = useState<string | null>(null)
 
 	const postData = async (url: string, formData: string) => {
 		setLoading(true)
@@ -12,9 +12,9 @@ export default function usePostHooks() {
 			const res = await axios.post(url, formData)
 			setResponse(res.data)
 			setError(null)
-		} catch (err: unknown) {
-			if (err instanceof Error) {
-				console.log(err.message)
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				setError(error.message)
 			}
      } finally {
 			setLoading(false)

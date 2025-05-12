@@ -81,7 +81,7 @@ function Header() {
 
 						{isOpens
 						 && (
-							<div className='absolute  hover:cursor-pointer mt-3 w-60 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden animate-fadeIn z-20'>
+							<div className='absolute  hover:cursor-pointer mt-3 w-60 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden animate-fadeIn z-50'>
 								<ul className='divide-y divide-gray-100'>
 									{data?.map((category: Category) => (
 										<li key={category?.id}>

@@ -20,10 +20,36 @@ export function AuthModalWithTabs() {
 	const [password, setPassword] = useState('')
 	const [emailLogin, setEmailLogin] = useState('')
 	const [passwordLogin, setPasswordLogin] = useState('')
+	const [loginErrors, setLoginErrors] = useState({
+		email: false,
+		password: false,
+	})
+	const [registerErrors, setRegisterErrors] = useState({
+		fullname: false,
+		email: false,
+		password: false,
+	})
+
 	const { response, loading, error, postData } = usePostHooks()
+	const {
+		response: response1,
+		loading: loading1,
+		error: error1,
+		postData: post,
+	} = usePostHooks()
 
 	const handleRegister = async (e: React.FormEvent) => {
 		e.preventDefault()
+
+		const errors = {
+			fullname: fullname.trim() === '',
+			email: email.trim() === '',
+			password: password.trim() === '',
+		}
+		setRegisterErrors(errors)
+
+		if (errors.fullname || errors.email || errors.password) return
+
 		const formData = {
 			fullname: fullname.trim(),
 			email: email.trim(),
@@ -34,42 +60,29 @@ export function AuthModalWithTabs() {
 
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault()
+
+		const errors = {
+			email: emailLogin.trim() === '',
+			password: passwordLogin.trim() === '',
+		}
+		setLoginErrors(errors)
+
+		if (errors.email || errors.password) return
+
 		const formData1 = {
 			email: emailLogin.trim(),
 			password: passwordLogin.trim(),
 		}
-		await postData(`${url}/auth/login`, formData1)
+		await post(`${url}/auth/login`, formData1)
 	}
 
 	useEffect(() => {
-		if (response && response.accessToken) {
-			localStorage.setItem('token', response.accessToken)
+		const token = response?.accessToken || response1?.accessToken
+		if (token) {
+			localStorage.setItem('token', token)
 			isOpenModal(false)
 		}
-	}, [response, isOpenModal])
-
-	if (loading) {
-		return (
-			<div className="fixed w-full h-screen z-50 bg-[#fff]">
-				<div className='flex justify-center items-center h-screen flex-col'>
-				<div className='animate-spin rounded-full border-t-4 border-blue-500 border-8 w-16 h-16 mb-4'></div>
-				<p className='text-lg text-gray-700'>Loading data...</p>
-			</div>
-			</div>
-		)
-	}
-
-	if (error) {
-		return (
-			<div className="fixed w-full h-screen bg-[#fff] z-50 px-[20px]">
-				<div className='flex justify-center items-center h-[200px]'>
-				<div className='bg-red-100 text-red-700 px-4 py-2 rounded-md shadow-md'>
-					Malumot topilmadi iltimos keyinroq qayta urinib ko'ring...
-				</div>
-			</div>
-			</div>
-		)
-	}
+	}, [response, response1, isOpenModal])
 
 	return (
 		<Dialog open={isOpen} onOpenChange={isOpenModal}>
@@ -83,7 +96,7 @@ export function AuthModalWithTabs() {
 
 				<Tabs
 					defaultValue='login'
-					className='w-full mt-4 max-[450px]:mt-[-350px]'
+					className='w-full mt-4 max-[450px]:mt-[-300px]'
 				>
 					<TabsList className='grid w-full grid-cols-2'>
 						<TabsTrigger className='cursor-pointer' value='login'>
@@ -98,30 +111,54 @@ export function AuthModalWithTabs() {
 						<form onSubmit={handleLogin} className='flex flex-col gap-4 mt-4'>
 							<div>
 								<Input
-								onChange={e => setEmailLogin(e.target.value)}
-								type='email'
-								placeholder='Email'
-								required
-							/>
-								<p className='text-[13px] font-["Roboto"] font-normal text-red-500 my-[5px]'>Malumot kiriting...</p>
+									onChange={e => {
+										setEmailLogin(e.target.value)
+										if (loginErrors.email) {
+											setLoginErrors(prev => ({ ...prev, email: false }))
+										}
+									}}
+									type='email'
+									placeholder='Email'
+								/>
+								{loginErrors.email && (
+									<p className='text-[13px] font-["Roboto"] font-normal text-red-500 my-[5px]'>
+										Email kiriting...
+									</p>
+								)}
 							</div>
 
 							<div>
-							<Input
-								onChange={e => setPasswordLogin(e.target.value)}
-								type='password'
-								placeholder='Password'
-								required
-							/>
-							<p className='text-[13px] font-["Roboto"] font-normal text-red-500 my-[5px]'>Malumot kiriting...</p>
+								<Input
+									onChange={e => {
+										setPasswordLogin(e.target.value)
+										if (loginErrors.password) {
+											setLoginErrors(prev => ({ ...prev, password: false }))
+										}
+									}}
+									type='password'
+									placeholder='Password'
+								/>
+								{loginErrors.password && (
+									<p className='text-[13px] font-["Roboto"] font-normal text-red-500 my-[5px]'>
+										Parol kiriting...
+									</p>
+								)}
 							</div>
+
 							<Button
-								disabled={loading}
+								disabled={loading1}
 								type='submit'
 								className='w-full bg-[#134E9B] cursor-pointer hover:bg-[#134e9bab]'
 							>
-								{loading ? 'Tekshirilmoqda...' : 'Login'}
+								{loading1 ? 'Tekshirilmoqda...' : 'Login'}
 							</Button>
+							{error1 && (
+								<div className='w-full p-[10px] rounded bg-red-500'>
+									<p className='text-white text-[15px] font-normal font-["Roboto"]'>
+										{error1}
+									</p>
+								</div>
+							)}
 						</form>
 					</TabsContent>
 
@@ -130,35 +167,61 @@ export function AuthModalWithTabs() {
 							onSubmit={handleRegister}
 							className='flex flex-col gap-4 mt-4'
 						>
-							<div className="">
+							<div>
 								<Input
-								onChange={e => setFullName(e.target.value)}
-								type='text'
-								placeholder='Name'
-								value={fullname}
-								required
-							/>
-							<p className='text-[13px] font-["Roboto"] font-normal text-red-500 my-[5px]'>Malumot kiriting...</p>
+									onChange={e => {
+										setFullName(e.target.value)
+										if (registerErrors.fullname) {
+											setRegisterErrors(prev => ({ ...prev, fullname: false }))
+										}
+									}}
+									type='text'
+									placeholder='Name'
+									value={fullname}
+								/>
+								{registerErrors.fullname && (
+									<p className='text-[13px] font-["Roboto"] font-normal text-red-500 my-[5px]'>
+										Ism kiriting...
+									</p>
+								)}
 							</div>
-							<div className="">
+
+							<div>
 								<Input
-								onChange={e => setEmail(e.target.value)}
-								type='email'
-								placeholder='Email'
-								value={email}
-								required
-							/>
-							<p className='text-[13px] font-["Roboto"] font-normal text-red-500 my-[5px]'>Malumot kiriting...</p>
+									onChange={e => {
+										setEmail(e.target.value)
+										if (registerErrors.email) {
+											setRegisterErrors(prev => ({ ...prev, email: false }))
+										}
+									}}
+									type='email'
+									placeholder='Email'
+									value={email}
+								/>
+								{registerErrors.email && (
+									<p className='text-[13px] font-["Roboto"] font-normal text-red-500 my-[5px]'>
+										Email kiriting...
+									</p>
+								)}
 							</div>
-							<div className="">
+
+							<div>
 								<Input
-								onChange={e => setPassword(e.target.value)}
-								type='password'
-								placeholder='Password'
-								value={password}
-								required
-							/>
-							<p className='text-[13px] font-["Roboto"] font-normal text-red-500 my-[5px]'>Malumot kiriting...</p>
+									onChange={e => {
+										setPassword(e.target.value)
+										if (registerErrors.password) {
+											setRegisterErrors(prev => ({ ...prev, password: false }))
+										}
+									}}
+									type='password'
+									placeholder='Password'
+									value={password}
+								/>
+								{registerErrors.password && (
+									<p className='text-[13px] font-["Roboto"] font-normal text-red-500 my-[5px]'>
+										Parol kiriting...
+									</p>
+								)}
 							</div>
 
 							<Button
@@ -168,6 +231,13 @@ export function AuthModalWithTabs() {
 							>
 								{loading ? 'Yuborilmoqda...' : 'Register'}
 							</Button>
+							{error && (
+								<div className='w-full p-[10px] rounded bg-red-500'>
+									<p className='text-white text-[15px] font-normal font-["Roboto"]'>
+										{error}
+									</p>
+								</div>
+							)}
 						</form>
 					</TabsContent>
 				</Tabs>

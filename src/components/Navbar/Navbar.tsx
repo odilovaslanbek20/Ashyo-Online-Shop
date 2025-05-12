@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { GrLocation } from 'react-icons/gr'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { FaXmark } from 'react-icons/fa6'
 import {
 	Select,
@@ -21,6 +21,22 @@ function Navbar() {
 		setActiveLink(link)
 	}
 
+	const location = useLocation()
+
+useEffect(() => {
+  const path = location.pathname
+  if (path.includes('products')) {
+    setActiveLink('products')
+  } else if (path.includes('contacts')) {
+    setActiveLink('contacts')
+  } else if (path.includes('about')) {
+    setActiveLink('about')
+  } else {
+    setActiveLink('')
+  }
+}, [location.pathname])
+
+
 	const linkClass = (name: string) =>
 		`group ${activeLink === name ? 'text-black' : ''}`
 
@@ -38,7 +54,7 @@ function Navbar() {
 					<div
 						className={`flex items-center gap-[15px] max-[620px]:fixed max-[620px]:top-0 ${
 							isModal ? 'max-[620px]:right-0' : 'max-[620px]:right-[-100%]'
-						} max-[620px]:w-[250px] max-[620px]:h-screen max-[620px]:bg-[#EBEFF3] max-[620px]:z-50 max-[620px]:shadow max-[570px]:flex max-[620px]:items-center max-[620px]:justify-start max-[620px]:flex-col max-[620px]:pt-[40px] transition-all duration-500`}
+						} max-[620px]:w-[280px] max-[620px]:h-screen max-[620px]:bg-[#EBEFF3] max-[620px]:z-50 max-[620px]:shadow max-[570px]:flex max-[620px]:items-center max-[620px]:justify-start max-[620px]:flex-col max-[620px]:pt-[40px] transition-all duration-500`}
 					>
 						<FaXmark
 							onClick={toggleModal}
@@ -50,7 +66,7 @@ function Navbar() {
 							tabIndex={0}
 							to='#'
 						>
-							<p className='text-[14px] font-normal text-[#545D6A] font-["Roboto"] leading-[130%]'>
+							<p className='text-[14px] max-[620px]:text-[18px] font-normal text-[#545D6A] font-["Roboto"] leading-[130%]'>
 								About Us
 							</p>
 							<div
@@ -63,9 +79,9 @@ function Navbar() {
 							onClick={() => handleLink('products')}
 							className={linkClass('products')}
 							tabIndex={0}
-							to='#'
+							to='/products'
 						>
-							<p className='text-[14px] font-normal text-[#545D6A] font-["Roboto"] leading-[130%]'>
+							<p className='text-[14px] max-[620px]:text-[18px] font-normal text-[#545D6A] font-["Roboto"] leading-[130%]'>
 								Products
 							</p>
 							<div
@@ -80,7 +96,7 @@ function Navbar() {
 							tabIndex={0}
 							to='#'
 						>
-							<p className='text-[14px] font-normal text-[#545D6A] font-["Roboto"] leading-[130%]'>
+							<p className='text-[14px] max-[620px]:text-[18px] font-normal text-[#545D6A] font-["Roboto"] leading-[130%]'>
 								Contacts
 							</p>
 							<div
