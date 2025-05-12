@@ -8,9 +8,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useStore } from '@/zustan/zustan'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import usePostHooks from '../hooks/PostDataHooks'
-import { useRef } from 'react'
 
 export function AuthModalWithTabs() {
 	const url = import.meta.env.VITE_API_URL
@@ -128,7 +127,7 @@ export function AuthModalWithTabs() {
 				aria-describedby={undefined}
 				className='sm:max-w-[450px] max-[450px]:max-w-full max-[450px]:h-screen'
 			>
-				<DialogHeader>
+				<DialogHeader className='mb-[30px]'>
 					<DialogTitle className='max-[450px]:text-start'>Welcome</DialogTitle>
 				</DialogHeader>
 

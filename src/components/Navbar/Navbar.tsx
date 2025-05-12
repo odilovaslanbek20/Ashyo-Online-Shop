@@ -61,7 +61,10 @@ useEffect(() => {
 							className='min-[620px]:hidden absolute top-[10px] left-[15px] text-[25px] cursor-pointer'
 						/>
 						<Link
-							onClick={() => handleLink('about')}
+							onClick={() => {
+								handleLink('about')
+								toggleModal()
+							}}
 							className={linkClass('about')}
 							tabIndex={0}
 							to='#'
@@ -76,7 +79,10 @@ useEffect(() => {
 							></div>
 						</Link>
 						<Link
-							onClick={() => handleLink('products')}
+							onClick={() => {
+								handleLink('products')
+								toggleModal()
+							}}
 							className={linkClass('products')}
 							tabIndex={0}
 							to='/products'
@@ -91,7 +97,10 @@ useEffect(() => {
 							></div>
 						</Link>
 						<Link
-							onClick={() => handleLink('contacts')}
+							onClick={() => {
+								handleLink('contacts')
+								toggleModal()
+							}}
 							className={linkClass('contacts')}
 							tabIndex={0}
 							to='#'
