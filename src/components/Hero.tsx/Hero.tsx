@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
-import 'swiper/css'
-import 'swiper/css/navigation'
+import "@/components/swiper/css"
 import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Button } from '../ui/button'

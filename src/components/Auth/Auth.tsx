@@ -15,11 +15,11 @@ export function AuthModalWithTabs() {
 	const url = import.meta.env.VITE_API_URL
 	const { isOpen, isOpenModal } = useStore()
 
-	const [fullname, setFullName] = useState('')
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
-	const [emailLogin, setEmailLogin] = useState('')
-	const [passwordLogin, setPasswordLogin] = useState('')
+	const [fullname, setFullName] = useState<string>('')
+	const [email, setEmail] = useState<string>('')
+	const [password, setPassword] = useState<string>('')
+	const [emailLogin, setEmailLogin] = useState<string>('')
+	const [passwordLogin, setPasswordLogin] = useState<string>('')
 	const [loginErrors, setLoginErrors] = useState({
 		email: false,
 		password: false,
@@ -51,9 +51,9 @@ export function AuthModalWithTabs() {
 		if (errors.fullname || errors.email || errors.password) return
 
 		const formData = {
-			fullname: fullname.trim(),
-			email: email.trim(),
-			password: password.trim(),
+			fullname,
+			email,
+			password,
 		}
 		await postData(`${url}/auth/register`, formData)
 	}
@@ -70,17 +70,21 @@ export function AuthModalWithTabs() {
 		if (errors.email || errors.password) return
 
 		const formData1 = {
+			fullname,
 			email: emailLogin.trim(),
 			password: passwordLogin.trim(),
 		}
 		await post(`${url}/auth/login`, formData1)
 	}
 
+	console.log(response);
+	
+
 	useEffect(() => {
 		const token = response?.accessToken || response1?.accessToken
 		if (token) {
 			localStorage.setItem('token', token)
-			isOpenModal(false)
+			isOpenModal()
 		}
 	}, [response, response1, isOpenModal])
 
