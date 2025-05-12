@@ -10,11 +10,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useStore } from '@/zustan/zustan'
 import { useEffect, useState } from 'react'
 import usePostHooks from '../hooks/PostDataHooks'
+import { useRef } from 'react'
 
 export function AuthModalWithTabs() {
 	const url = import.meta.env.VITE_API_URL
 	const { isOpen, isOpenModal } = useStore()
-
+	const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false)
+	const [notification, setNotification] = useState<string>('')
 	const [fullname, setFullName] = useState<string>('')
 	const [email, setEmail] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
@@ -38,6 +40,8 @@ export function AuthModalWithTabs() {
 		postData: post,
 	} = usePostHooks()
 
+	const notificationTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
 	const handleRegister = async (e: React.FormEvent) => {
 		e.preventDefault()
 
@@ -56,6 +60,7 @@ export function AuthModalWithTabs() {
 			password,
 		}
 		await postData(`${url}/auth/register`, formData)
+		setIsFormSubmitted(true)
 	}
 
 	const handleLogin = async (e: React.FormEvent) => {
@@ -75,18 +80,47 @@ export function AuthModalWithTabs() {
 			password: passwordLogin.trim(),
 		}
 		await post(`${url}/auth/login`, formData1)
+		setIsFormSubmitted(true)
 	}
 
-	console.log(response);
-	
+	useEffect(() => {
+		const user = localStorage.getItem('token')
+		if (user !== null) {
+			const token = JSON.parse(user)
+			setNotification(token.message)
+		}
+	}, [response, response1])
 
 	useEffect(() => {
-		const token = response?.accessToken || response1?.accessToken
+		const token = response || response1
 		if (token) {
-			localStorage.setItem('token', token)
+			localStorage.setItem('token', JSON.stringify(token))
 			isOpenModal()
 		}
 	}, [response, response1, isOpenModal])
+
+	useEffect(() => {
+		if (notification) {
+			if (notificationTimeoutRef.current) {
+				clearTimeout(notificationTimeoutRef.current)
+			}
+			notificationTimeoutRef.current = setTimeout(() => {
+				setNotification('')
+			}, 3000)
+		}
+	}, [notification])
+
+	if (notification) {
+		return (
+			<div
+				className={`fixed ${
+					isFormSubmitted ? 'top-5' : 'top-[-100%]'
+				}  right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-md z-50 transition-all duration-700`}
+			>
+				{isFormSubmitted ? `✅ ${notification}` : null}
+			</div>
+		)
+	}
 
 	return (
 		<Dialog open={isOpen} onOpenChange={isOpenModal}>

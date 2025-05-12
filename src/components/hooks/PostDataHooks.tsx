@@ -8,7 +8,7 @@ type FormData = {
 }
 
 export default function usePostHooks() {
-	const [response, setResponse] = useState<null>(null)
+	const [response, setResponse] = useState("")
 	const [loading, setLoading] = useState<boolean>(false)
 	const [error, setError] = useState<string | null>(null)
 
