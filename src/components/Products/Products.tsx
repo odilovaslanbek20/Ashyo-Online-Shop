@@ -93,23 +93,26 @@ function Products() {
 							<IoIosColorFilter className='text-[#fff] text-[25px]' />
 						</div>
 					</div>
-					<div className='grid grid-cols-3 gap-x-[30px] gap-y-[50px] w-full max-[1100px]:grid-cols-2 max-[850px]:grid-cols-3 max-[850px]:gap-x-[20px]'>
+					<div className='grid grid-cols-2 gap-[30px] w-full max-[1100px]:grid-cols-2 max-[850px]:grid-cols-3 max-[690px]:grid-cols-2 max-[500px]:grid-cols-2 max-[500px]:gap-[20px] max-[400px]:grid-cols-1'>
 						{data?.items?.map((product: Product) => (
-							<div key={product?.id} className='max-w-full'>
-								<div className='bg-[#EBEFF3] rounded-[8px] p-[30px] max-w-full max-h-[270px] max-[730px]:max-h-[250px] h-full relative flex items-center justify-center'>
-									<div className="max-[730px]:w-[30px] max-[730px]:h-[30px] max-[730px]:border cursor-pointer">
-										<GoHeart className='absolute text-[25px] top-[20px] right-[20px]' />
+							<div
+								key={product?.id}
+								className='max-w-full max-[450px]:mb-[20px] max-[415px]:mb-[30px]'
+							>
+								<div className='bg-[#EBEFF3] rounded-[8px] p-[30px] m[30px] max-w-full max-h-[270px] max-[730px]:max-h-[250px] max-[500px]:max-h-[200px] h-full relative flex items-center justify-center'>
+									<div className='max-[800px]:w-[50px] max-[800px]:h-[50px] w-[60px] h-[60px] top-[20px] right-[20px] absolute cursor-pointer rounded-full shadow-lg p-[5px] backdrop-blur-md transition-all duration-300 bg-gradient-to-br from-pink-100 flex items-center justify-center hover:scale-110 active:scale-95 hover:shadow-xl'>
+										<GoHeart className='text-[28px] text-red-500 hover:text-red-600 transition-colors duration-300' />
 									</div>
 									<img
-										className='max-w-[200px] max-h-[200px]'
+										className='max-w-[200px] max-[500px]:max-w-full max-[500px]:max-h-[150px] max-h-[200px]'
 										src={product?.image}
 										alt={product?.description}
 									/>
 								</div>
-								<h2 className='text-[#545D6A] mx-[5px] line-clamp-2 text-[14px] mt-[16px] font-normal font-["Roboto"] leading-[19px]'>
+								<h2 className='text-[#545D6A] max-[400px]:mb-[8px] mx-[5px] line-clamp-2 text-[14px] mt-[16px] font-normal font-["Roboto"] leading-[19px]'>
 									{product?.description}
 								</h2>
-								<p className='mt-[28px] mb-[10px] text-[#0A1729] font-["Roboto"] font-bold text-[20px] leading-[26px]'>
+								<p className='max-[400px]:hidden mt-[28px] mb-[10px] text-[#0A1729] font-["Roboto"] font-bold text-[20px] leading-[26px]'>
 									{product?.price} <span>usz</span>
 								</p>
 								<div className='flex items-end gap-[9px] w-full max-[915px]:flex-col'>
@@ -118,16 +121,21 @@ function Products() {
 											{product?.nasiya} / 1 200 000 usz
 										</p>
 									</div>
-									<div className='flex items-center gap-[9px]'>
+									<div className='flex items-center max-[400px]:justify-between max-[400px]:w-full gap-[9px]'>
 										<div className='border border-[#EBEFF3] cursor-pointer min-w-[50px] h-[48px] rounded-[6px] flex items-center justify-center relative'>
 											<FaBalanceScaleRight className='text-[20px]' />
 										</div>
+
+										<p className='min-[400px]:hidden mt-[28px] mb-[10px] text-[#0A1729] font-["Roboto"] font-bold text-[20px] leading-[26px]'>
+											{product?.price} <span>usz</span>
+										</p>
 
 										<div className='bg-[#134E9B] cursor-pointer min-w-[50px] h-[48px] rounded-[6px] flex items-center justify-center relative'>
 											<FaShopify className='text-[20px] text-[#fff]' />
 										</div>
 									</div>
 								</div>
+								<hr />
 							</div>
 						))}
 					</div>
