@@ -1,3 +1,4 @@
+import Brands from '@/components/Brands/Brands'
 import Header from '@/components/Header/Header'
 import Hero from '@/components/Hero.tsx/Hero'
 import Navbar from '@/components/Navbar/Navbar'
@@ -8,6 +9,7 @@ function HomePages() {
 		  <Navbar/>
 		  <Header/>
 			<Hero/>
+			<Brands/>
 		</>
 	)
 }

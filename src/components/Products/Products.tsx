@@ -1,27 +1,65 @@
-import { FaBalanceScaleRight, FaShopify } from 'react-icons/fa'
-import useGetHooks from '../hooks/GetDataHooks'
 import { useState } from 'react'
-import { IoIosColorFilter } from 'react-icons/io'
+import { FaBalanceScaleRight, FaShopify } from 'react-icons/fa'
 import { FaXmark } from 'react-icons/fa6'
 import { GoHeart } from 'react-icons/go'
+import { IoIosColorFilter } from 'react-icons/io'
+import { useSearchParams } from 'react-router-dom'
+import useGetHooks from '../hooks/GetDataHooks'
 import { PriceRangeSlider } from '../Slider/slider'
 
 type Product = {
+	variationOption: any
 	id: string
-	summary: string
 	image: string
 	nasiya: string
 	price: number
 	description: string
+	category: string
+	name: string
+}
+
+type Category = {
+	id: string
+	name: string
+	product_item: Product[]
+	configurations: Product[]
+	category: string
 }
 
 function Products() {
 	const url = import.meta.env.VITE_API_URL
 	const { data, isLoading, error } = useGetHooks(`${url}/products`)
+	const {
+		data: data1,
+		isLoading: loading1,
+		error: error1,
+	} = useGetHooks(`${url}/categories/all?limit=10`)
+	const {
+		data: data2,
+		isLoading: loading2,
+		error: error2,
+	} = useGetHooks(`${url}/brands/all`)
 	const [modal, setModal] = useState<boolean>(false)
-	 const [range, setRange] = useState<[number, number]>([100000, 500000])
+	const [range, setRange] = useState<[number, number]>([100000, 500000])
 
-	if (isLoading) {
+	const [searchParams, setSearchParams] = useSearchParams()
+	const [searchParams1, setSearchParams1] = useSearchParams()
+	const currentCategory = searchParams.get('category')
+	const currentBrand = searchParams1.get('brand')
+
+	const filteredProducts =
+		currentCategory && currentCategory !== 'all'
+			? data?.items?.filter(
+					(item: Product) => item?.category.name === currentCategory
+			  )
+			: data?.items
+
+	const filteredProductsBrands =
+		currentBrand && currentBrand !== 'all'
+			? filteredProducts?.filter((item: Product) => item?.name === currentBrand)
+			: filteredProducts
+
+	if (isLoading || loading1 || loading2) {
 		return (
 			<div className='fixed w-full h-screen z-50 bg-[#fff]'>
 				<div className='flex justify-center items-center h-screen flex-col'>
@@ -32,7 +70,7 @@ function Products() {
 		)
 	}
 
-	if (error) {
+	if (error || error1 || error2) {
 		return (
 			<div className='fixed w-full h-screen bg-[#fff] z-50 px-[20px]'>
 				<div className='flex justify-center items-center h-[200px]'>
@@ -44,11 +82,21 @@ function Products() {
 		)
 	}
 
+	console.log(data2)
+
+	const handleCategoryClick = (category: string) => {
+		setSearchParams({ category })
+	}
+
+	const handleBrandsClick = (brand: string) => {
+		setSearchParams1({ brand })
+	}
+
 	return (
 		<>
 			<section className='max-w-[1180px] m-auto max-[1220px]:mx-[20px] flex items-start gap-[21px]'>
 				<div
-					className={`bg-[#EBEFF3] min-w-[280px] max-w-[280px] p-[18px] rounded-[8px] max-[850px]:fixed max-[850px]:top-0 max-[850px]:rounded-[0px] shadow-md transition-all duration-700 z-40 ${
+					className={`bg-[#EBEFF3] min-w-[280px] max-w-[300px] p-[18px] rounded-[8px] max-[850px]:fixed max-[850px]:top-0 max-[850px]:rounded-[0px] shadow-md transition-all duration-700 z-40 ${
 						modal ? 'left-0' : 'left-[-100%]'
 					}`}
 				>
@@ -72,7 +120,9 @@ function Products() {
 									...dan
 								</p>
 								<div className='w-full h-[48px] bg-[#FFFFFF] flex items-center justify-center rounded'>
-									<p className='text-[#00000099]'>{range[0].toLocaleString()}</p>
+									<p className='text-[#00000099]'>
+										{range[0].toLocaleString()}
+									</p>
 								</div>
 							</div>
 							<div className='w-full'>
@@ -80,7 +130,9 @@ function Products() {
 									...gacha
 								</p>
 								<div className='w-full h-[48px] bg-[#FFFFFF] flex items-center justify-center rounded'>
-									<p className='text-[#00000099]'>{range[1].toLocaleString()}</p>
+									<p className='text-[#00000099]'>
+										{range[1].toLocaleString()}
+									</p>
 								</div>
 							</div>
 						</div>
@@ -95,13 +147,68 @@ function Products() {
 							/>
 						</div>
 
-						<div className="w-full">
-							<h2 className='font-medium font-["Roboto"] text-[#000000] text-[16px] leading-[34px]'>Brendi</h2>
-              <div className="">
-
+						<div className='w-full mb-[30px]'>
+							<h2 className='font-medium mb-[5px] font-["Roboto"] text-[#000000] text-[16px] leading-[34px]'>
+								Kategoriya
+							</h2>
+							<div className='flex flex-wrap gap-[5px]'>
+								{data1?.map((brand: Category) => {
+									const isActive = currentCategory === brand?.name
+									return (
+										<div
+											onClick={() => handleCategoryClick(brand?.name)}
+											key={brand?.id}
+											className={`py-[8px] cursor-pointer px-[18px] rounded-[30px] ${
+												isActive
+													? 'bg-[#15509E] text-white'
+													: 'bg-[#fff] text-[#0A1729]'
+											}`}
+										>
+											<p className='font-["Roboto"] font-normal text-[12px]'>
+												{brand?.name}
+											</p>
+										</div>
+									)
+								})}
+								<div
+									onClick={() => setSearchParams({})}
+									className={`py-[8px] cursor-pointer px-[18px] rounded-[30px] ${
+										!currentCategory
+											? 'bg-[#15509E] text-white'
+											: 'bg-[#fff] text-[#0A1729]'
+									}`}
+								>
+									<p className='font-["Roboto"] font-normal text-[12px]'>All</p>
+								</div>
 							</div>
 						</div>
 
+						<div className=''>
+							<h2 className='font-medium mb-[5px] font-["Roboto"] text-[#000000] text-[16px] leading-[34px]'>
+								Brand
+							</h2>
+							<div className='flex flex-wrap gap-[5px]'>
+								{data2?.map((category: Category) => (
+									<div
+										onClick={() => handleBrandsClick(category?.name)}
+										key={category?.id}
+									>
+										<div className='py-[8px] px-[18px] bg-[#fff] rounded-[30px]'>
+											<p className='font-["Roboto"] font-normal text-[12px] text-[#0A1729]'>
+												{category?.name}
+											</p>
+										</div>
+									</div>
+								))}
+								<div
+									onClick={() => setSearchParams({})}
+									className='py-[8px] cursor-pointer px-[18px] rounded-[30px]  bg-[#fff] text-[#0A1729]
+									'
+								>
+									<p className='font-["Roboto"] font-normal text-[12px]'>All</p>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div className='w-full'>
@@ -117,7 +224,7 @@ function Products() {
 						</div>
 					</div>
 					<div className='grid grid-cols-3 gap-[30px] w-full max-[1100px]:grid-cols-2 max-[850px]:grid-cols-3 max-[690px]:grid-cols-2 max-[500px]:grid-cols-2 max-[500px]:gap-[20px] max-[400px]:grid-cols-1'>
-						{data?.items?.map((product: Product) => (
+						{filteredProductsBrands?.map((product: Product) => (
 							<div
 								key={product?.id}
 								className='max-w-full max-[450px]:mb-[20px] max-[415px]:mb-[30px] max-[400px]:mt-[-10px] mb-[10px]'
