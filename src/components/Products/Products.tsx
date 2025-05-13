@@ -40,7 +40,7 @@ function Products() {
 		error: error2,
 	} = useGetHooks(`${url}/brands/all`)
 	const [modal, setModal] = useState<boolean>(false)
-	const [range, setRange] = useState<[number, number]>([100000, 500000])
+	const [range, setRange] = useState<[number, number]>([0, 1000000])
 
 	const [searchParams, setSearchParams] = useSearchParams()
 	const [searchParams1, setSearchParams1] = useSearchParams()
@@ -58,6 +58,10 @@ function Products() {
 		currentBrand && currentBrand !== 'all'
 			? filteredProducts?.filter((item: Product) => item?.name === currentBrand)
 			: filteredProducts
+
+	const filteredByPrice = filteredProductsBrands?.filter(
+		(product: Product) => product.price >= range[0] && product.price <= range[1]
+	)
 
 	if (isLoading || loading1 || loading2) {
 		return (
@@ -82,7 +86,7 @@ function Products() {
 		)
 	}
 
-	console.log(data2)
+	console.log(data?.item)
 
 	const handleCategoryClick = (category: string) => {
 		setSearchParams({ category })
@@ -224,7 +228,7 @@ function Products() {
 						</div>
 					</div>
 					<div className='grid grid-cols-3 gap-[30px] w-full max-[1100px]:grid-cols-2 max-[850px]:grid-cols-3 max-[690px]:grid-cols-2 max-[500px]:grid-cols-2 max-[500px]:gap-[20px] max-[400px]:grid-cols-1'>
-						{filteredProductsBrands?.map((product: Product) => (
+						{filteredByPrice?.map((product: Product) => (
 							<div
 								key={product?.id}
 								className='max-w-full max-[450px]:mb-[20px] max-[415px]:mb-[30px] max-[400px]:mt-[-10px] mb-[10px]'
