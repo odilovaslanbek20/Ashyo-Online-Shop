@@ -125,7 +125,7 @@ export function AuthModalWithTabs() {
 		<Dialog open={isOpen} onOpenChange={isOpenModal}>
 			<DialogContent
 				aria-describedby={undefined}
-				className='sm:max-w-[450px] max-[450px]:max-w-full max-[450px]:h-screen'
+				className='sm:max-w-[450px] max-[450px]:max-w-full max-[450px]:h-screen max-[450px]:rounded-none'
 			>
 				<DialogHeader className='mb-[30px]'>
 					<DialogTitle className='max-[450px]:text-start'>Welcome</DialogTitle>

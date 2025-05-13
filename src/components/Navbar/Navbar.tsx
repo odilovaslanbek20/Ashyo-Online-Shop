@@ -54,7 +54,7 @@ useEffect(() => {
 					<div
 						className={`flex items-center gap-[15px] max-[620px]:fixed max-[620px]:top-0 ${
 							isModal ? 'max-[620px]:right-0' : 'max-[620px]:right-[-100%]'
-						} max-[620px]:w-[280px] max-[620px]:h-screen max-[620px]:bg-[#EBEFF3] max-[620px]:z-50 max-[620px]:shadow max-[570px]:flex max-[620px]:items-center max-[620px]:justify-start max-[620px]:flex-col max-[620px]:pt-[40px] transition-all duration-500`}
+						} max-[620px]:w-[280px] max-[620px]:h-screen max-[620px]:bg-[#EBEFF3] max-[620px]:z-[9999] max-[620px]:shadow max-[570px]:flex max-[620px]:items-center max-[620px]:justify-start max-[620px]:flex-col max-[620px]:pt-[40px] transition-all duration-500`}
 					>
 						<FaXmark
 							onClick={toggleModal}

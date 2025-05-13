@@ -39,6 +39,9 @@ function Brands() {
 		)
 	}
 
+	console.log(data);
+	
+
 	return (
 		<section className='max-w-[1180px] mx-auto px-5 my-[100px]'>
 			<h2 className='font-["Roboto"] font-bold text-[40px] mb-[10px] text-center'>Brands</h2>

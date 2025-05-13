@@ -16,6 +16,7 @@ type Product = {
 	description: string
 	category: string
 	name: string
+	brand_id: string
 }
 
 type Category = {
@@ -50,13 +51,15 @@ function Products() {
 	const filteredProducts =
 		currentCategory && currentCategory !== 'all'
 			? data?.items?.filter(
-					(item: any) => item?.category.name === currentCategory
+					(item: any) => item?.category?.name === currentCategory
 			  )
 			: data?.items
 
 	const filteredProductsBrands =
 		currentBrand && currentBrand !== 'all'
-			? filteredProducts?.filter((item: Product) => item?.name === currentBrand)
+			? filteredProducts?.filter(
+					(item: Product) => String(item?.brand_id) === currentBrand
+			  )
 			: filteredProducts
 
 	const filteredByPrice = filteredProductsBrands?.filter(
@@ -86,7 +89,7 @@ function Products() {
 		)
 	}
 
-	console.log(data?.item)
+	console.log(data?.items)
 
 	const handleCategoryClick = (category: string) => {
 		setSearchParams({ category })
@@ -100,7 +103,7 @@ function Products() {
 		<>
 			<section className='max-w-[1180px] m-auto max-[1220px]:mx-[20px] flex items-start gap-[21px]'>
 				<div
-					className={`bg-[#EBEFF3] min-w-[280px] max-w-[300px] p-[18px] rounded-[8px] max-[850px]:fixed max-[850px]:top-0 max-[850px]:rounded-[0px] shadow-md transition-all duration-700 z-40 ${
+					className={`bg-[#EBEFF3] min-w-[280px] max-w-[300px] p-[18px] rounded-[8px] max-[850px]:fixed max-[850px]:top-0 max-[850px]:rounded-[0px] shadow-md transition-all duration-700 max-[850px]:z-[9999] max-[850px]:h-screen ${
 						modal ? 'left-0' : 'left-[-100%]'
 					}`}
 				>
@@ -157,15 +160,15 @@ function Products() {
 							</h2>
 							<div className='flex flex-wrap gap-[5px]'>
 								{data1?.map((brand: Category) => {
-									const isActive = currentCategory === brand?.name
+									const isActive = currentCategory !== brand?.name
 									return (
 										<div
 											onClick={() => handleCategoryClick(brand?.name)}
 											key={brand?.id}
 											className={`py-[8px] cursor-pointer px-[18px] rounded-[30px] ${
 												isActive
-													? 'bg-[#15509E] text-white'
-													: 'bg-[#fff] text-[#0A1729]'
+													? 'bg-[#fff] text-[#0A1729]'
+													: 'bg-[#15509E] text-white'
 											}`}
 										>
 											<p className='font-["Roboto"] font-normal text-[12px]'>
@@ -192,22 +195,29 @@ function Products() {
 								Brand
 							</h2>
 							<div className='flex flex-wrap gap-[5px]'>
-								{data2?.map((category: Category) => (
-									<div
-										onClick={() => handleBrandsClick(category?.name)}
-										key={category?.id}
-									>
-										<div className='py-[8px] px-[18px] bg-[#fff] rounded-[30px]'>
-											<p className='font-["Roboto"] font-normal text-[12px] text-[#0A1729]'>
-												{category?.name}
+								{data2?.map((brand: Category) => {
+									const isBrandActive = currentBrand === brand?.id 
+
+									return (
+										<div
+											onClick={() => handleBrandsClick(brand?.id)}
+											key={brand?.id}
+											className={`py-[8px] cursor-pointer px-[18px] rounded-[30px] ${
+												isBrandActive
+													? 'bg-[#fff] text-[#0A1729]' 
+													: 'bg-[#15509E] text-white'
+											}`}
+										>
+											<p className='font-["Roboto"] font-normal text-[12px]'>
+												{brand?.name}
 											</p>
 										</div>
-									</div>
-								))}
+									)
+								})}
+
 								<div
 									onClick={() => setSearchParams({})}
-									className='py-[8px] cursor-pointer px-[18px] rounded-[30px]  bg-[#fff] text-[#0A1729]
-									'
+									className='py-[8px] cursor-pointer px-[18px] rounded-[30px]  bg-[#fff] text-[#0A1729]'
 								>
 									<p className='font-["Roboto"] font-normal text-[12px]'>All</p>
 								</div>
