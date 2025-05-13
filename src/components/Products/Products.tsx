@@ -50,7 +50,7 @@ function Products() {
 	const filteredProducts =
 		currentCategory && currentCategory !== 'all'
 			? data?.items?.filter(
-					(item: Product) => item?.category.name === currentCategory
+					(item: any) => item?.category.name === currentCategory
 			  )
 			: data?.items
 
