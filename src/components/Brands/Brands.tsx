@@ -39,12 +39,11 @@ function Brands() {
 		)
 	}
 
-	console.log(data);
-	
-
 	return (
 		<section className='max-w-[1180px] mx-auto px-5 my-[100px]'>
-			<h2 className='font-["Roboto"] font-bold text-[40px] mb-[10px] text-center'>Brands</h2>
+			<h2 className='font-["Roboto"] font-bold text-[40px] mb-[10px] text-center'>
+				Brands
+			</h2>
 			<div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5'>
 				{isData?.map((item: BrandsType) => (
 					<div
