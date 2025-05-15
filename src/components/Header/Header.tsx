@@ -53,7 +53,7 @@ function Header() {
 			<header className='max-w-[1180px] m-auto max-[1220px]:mx-[20px] py-4 flex justify-between items-center gap-[20px] flex-wrap'>
 				<div className='flex items-center justify-between max-[620px]:w-full'>
 					<Link to='/' className='flex items-center gap-0'>
-						<img className='w-[150px]' src='logotip.png' alt='web logo' />
+						<img className='w-[150px]' src='/logotip.png' alt='web logo' />
 					</Link>
 
 					<FaBars onClick={toggleModal} className='text-[25px] cursor-pointer min-[620px]:hidden' />
