@@ -17,36 +17,35 @@ function Header() {
 	const url = import.meta.env.VITE_API_URL
 	const { data, isLoading, error } = useGetHooks(`${url}/categories/all`)
 	const [isOpens, setIsOpen] = useState<boolean>(false)
-	const {toggleModal, isOpenModal} = useStore()
+	const { toggleModal, isOpenModal } = useStore()
 
 	type Category = {
-		id: number,
-		name: string,
+		id: number
+		name: string
 	}
 
 	if (isLoading) {
 		return (
-			<div className="fixed w-full h-screen z-50 bg-[#fff]">
+			<div className='fixed w-full h-screen z-50 bg-[#fff]'>
 				<div className='flex justify-center items-center h-screen flex-col'>
-				<div className='animate-spin rounded-full border-t-4 border-blue-500 border-8 w-16 h-16 mb-4'></div>
-				<p className='text-lg text-gray-700'>Loading data...</p>
-			</div>
+					<div className='animate-spin rounded-full border-t-4 border-blue-500 border-8 w-16 h-16 mb-4'></div>
+					<p className='text-lg text-gray-700'>Loading data...</p>
+				</div>
 			</div>
 		)
 	}
 
 	if (error) {
 		return (
-			<div className="fixed w-full h-screen bg-[#fff] z-50 px-[20px]">
+			<div className='fixed w-full h-screen bg-[#fff] z-50 px-[20px]'>
 				<div className='flex justify-center items-center h-[200px]'>
-				<div className='bg-red-100 text-red-700 px-4 py-2 rounded-md shadow-md'>
-					Malumot topilmadi iltimos keyinroq qayta urinib ko'ring...
+					<div className='bg-red-100 text-red-700 px-4 py-2 rounded-md shadow-md'>
+						Malumot topilmadi iltimos keyinroq qayta urinib ko'ring...
+					</div>
 				</div>
-			</div>
 			</div>
 		)
 	}
-	
 
 	return (
 		<>
@@ -56,7 +55,10 @@ function Header() {
 						<img className='w-[150px]' src='/logotip.png' alt='web logo' />
 					</Link>
 
-					<FaBars onClick={toggleModal} className='text-[25px] cursor-pointer min-[620px]:hidden' />
+					<FaBars
+						onClick={toggleModal}
+						className='text-[25px] cursor-pointer min-[620px]:hidden'
+					/>
 				</div>
 
 				<div className='flex max-[1170px]:w-full items-center gap-[10px] max-[1170px]:order-2'>
@@ -73,14 +75,12 @@ function Header() {
 
 							<ChevronDown
 								className={`w-4 h-4 transform max-[500px]:hidden transition-transform ${
-									isOpens
-									 ? 'rotate-180' : ''
+									isOpens ? 'rotate-180' : ''
 								}`}
 							/>
 						</button>
 
-						{isOpens
-						 && (
+						{isOpens && (
 							<div className='absolute  hover:cursor-pointer mt-3 w-60 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden animate-fadeIn z-50'>
 								<ul className='divide-y divide-gray-100'>
 									{data?.map((category: Category) => (
@@ -123,18 +123,23 @@ function Header() {
 							2
 						</div>
 					</div>
-					<div className='bg-[#EBEFF3] cursor-pointer w-[50px] h-[48px] rounded-[6px] flex items-center justify-center relative'>
-						<FaShopify className='text-[20px]' />
-						<div className='absolute px-[7px] h-[20px] top-[-8px] right-[-8px] text-[#fff] rounded-full flex items-center justify-center font-["Roboto"] font-bold text-[10px] bg-[#E81504]'>
-							2
+					<Link to="/addToCards">
+						<div className='bg-[#EBEFF3] cursor-pointer w-[50px] h-[48px] rounded-[6px] flex items-center justify-center relative'>
+							<FaShopify className='text-[20px]' />
+							<div className='absolute px-[7px] h-[20px] top-[-8px] right-[-8px] text-[#fff] rounded-full flex items-center justify-center font-["Roboto"] font-bold text-[10px] bg-[#E81504]'>
+								2
+							</div>
 						</div>
-					</div>
-					<div onClick={isOpenModal} className='bg-[#EBEFF3] cursor-pointer w-[50px] h-[48px] rounded-[6px] flex items-center justify-center'>
+					</Link>
+					<div
+						onClick={isOpenModal}
+						className='bg-[#EBEFF3] cursor-pointer w-[50px] h-[48px] rounded-[6px] flex items-center justify-center'
+					>
 						<FaUser className='text-[20px]' />
 					</div>
 				</div>
 			</header>
-			<AuthModalWithTabs/>
+			<AuthModalWithTabs />
 		</>
 	)
 }
