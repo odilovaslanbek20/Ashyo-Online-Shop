@@ -1,28 +1,24 @@
 import { useState } from 'react'
 import axios from 'axios'
 
-type FormData = {
-	fullname: string,
-	email: string,
-	password: string,
-}
+export default function usePostHooks<T = unknown>() {
+	const [response, setResponse] = useState<T | null>(null)
+	const [loading, setLoading] = useState(false)
+	const [error, setError] = useState<null | string>(null)
 
-export default function usePostHooks() {
-	const [response, setResponse] = useState("")
-	const [loading, setLoading] = useState<boolean>(false)
-	const [error, setError] = useState<string | null>(null)
-
-	const postData = async (url: string, formData: FormData) => {
+	const postData = async (url: string, data: object) => {
 		setLoading(true)
+		setError(null)
 		try {
-			const res = await axios.post(url, formData)
+			const res = await axios.post<T>(url, data)
 			setResponse(res.data)
-			setError(null)
-		} catch (error: unknown) {
-			if (error instanceof Error) {
-				setError(error.message)
+		} catch (err: unknown) {
+			if (err instanceof Error) {
+				setError(err.message)
+			} else {
+				setError('Nomaʼlum xatolik')
 			}
-     } finally {
+		} finally {
 			setLoading(false)
 		}
 	}
