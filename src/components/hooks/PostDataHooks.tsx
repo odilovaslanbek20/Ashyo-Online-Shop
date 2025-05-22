@@ -5,6 +5,7 @@ export default function usePostHooks<T = unknown>() {
 	const [response, setResponse] = useState<T | null>(null)
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<null | string>(null)
+	const [status, setStatus] = useState<string>("")
 
 	const postData = async (url: string, data: object) => {
 		setLoading(true)
@@ -12,6 +13,7 @@ export default function usePostHooks<T = unknown>() {
 		try {
 			const res = await axios.post<T>(url, data)
 			setResponse(res.data)
+			setStatus(res.status.toString())
 		} catch (err: unknown) {
 			if (err instanceof Error) {
 				setError(err.message)
@@ -23,5 +25,5 @@ export default function usePostHooks<T = unknown>() {
 		}
 	}
 
-	return { response, loading, error, postData }
+	return { response, loading, error, status, postData }
 }

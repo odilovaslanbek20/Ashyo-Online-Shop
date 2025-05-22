@@ -8,7 +8,7 @@ import {
 	FaShopify,
 	FaUser,
 } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useGetHooks from '../hooks/GetDataHooks'
 import { useStore } from '@/zustan/zustan'
 import { AuthModalWithTabs } from '../Auth/AuthRegister'
@@ -18,10 +18,20 @@ function Header() {
 	const { data, isLoading, error } = useGetHooks(`${url}/categories/all`)
 	const [isOpens, setIsOpen] = useState<boolean>(false)
 	const { toggleModal, isOpenModal } = useStore()
+	const token = localStorage.getItem("token")
+	const navigate = useNavigate()
 
 	type Category = {
 		id: number
 		name: string
+	}
+
+	function locationWindow() {
+		if (token) {
+			navigate('/otp')
+		} else {
+			isOpenModal()
+		}
 	}
 
 	if (isLoading) {
@@ -132,7 +142,7 @@ function Header() {
 						</div>
 					</Link>
 					<div
-						onClick={isOpenModal}
+						onClick={locationWindow}
 						className='bg-[#EBEFF3] cursor-pointer w-[50px] h-[48px] rounded-[6px] flex items-center justify-center'
 					>
 						<FaUser className='text-[20px]' />
