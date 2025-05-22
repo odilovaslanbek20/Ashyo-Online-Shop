@@ -11,7 +11,7 @@ import {
 import { Link } from 'react-router-dom'
 import useGetHooks from '../hooks/GetDataHooks'
 import { useStore } from '@/zustan/zustan'
-import { AuthModalWithTabs } from '../Auth/Auth'
+import { AuthModalWithTabs } from '../Auth/AuthRegister'
 
 function Header() {
 	const url = import.meta.env.VITE_API_URL
