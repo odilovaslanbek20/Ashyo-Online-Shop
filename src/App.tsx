@@ -6,6 +6,7 @@ import SavatchaPage from './pages/Savatcha/Savatcha'
 import OtpPage from './pages/Auth/SendOtp'
 import Navbar from './components/Navbar/Navbar'
 import Header from './components/Header/Header'
+import LoginPage from './pages/Auth/Login'
 
 function App() {
 	return (
@@ -18,6 +19,7 @@ function App() {
 				<Route path='/products/:id' element={<ProductDetails />} />
 				<Route path='/addToCards' element={<SavatchaPage />} />
 				<Route path='/otp' element={<OtpPage />} />
+				<Route path='/login' element={<LoginPage />} />
 			</Routes>
 		</>
 	)
